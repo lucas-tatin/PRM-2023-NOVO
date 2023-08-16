@@ -1,14 +1,22 @@
 import { Avatar, Box, Typography } from "@mui/material";
+import { IntlProvider, FormattedDate } from 'react-intl';
 
 //Import de imagens
 import banner from '../../assets/img/profile_banner.png';
-import avatar from '../../assets/img/profile_avatar.jpg';
+import avatar from '../../assets/img/profile_avatar1.jpg';
 import { CalendarMonthOutlined } from "@mui/icons-material";
 
 //Import do Estilo
 import './style.css'
 
-function HeaderProfile() {
+type HeaderProfileProps = {
+        user: any
+    }
+    
+function HeaderProfile({
+          user
+}: HeaderProfileProps) {
+
     return (
         <Box id="header-profile">
 
@@ -17,25 +25,26 @@ function HeaderProfile() {
             </Box>
 
             <Box className="header-profile-detail">
-                <Avatar alt="Fulano de Tal" style={{width: 128, height: 128}}
-                        src={avatar} className="header-profile-detail-avatar" />
+            <Avatar alt={ user.fullname } style={{width: 128, height: 128}}                        src={avatar} className="header-profile-detail-avatar" />
 
                 <Box className="header-profile-detail-text">
                     <Typography variant="h5">
-                        Fulano de tal
+                      { user.fullname }
                     </Typography>
 
                     <Typography variant="subtitle1" component="h6">
-                        @fulanoDeTal
+                        @{ user.username }
                     </Typography>
 
                     <Typography variant="subtitle1" component="p">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Praesentium corrupti aut nostrum, ratione accusamus eveniet corporis veritatis sed soluta saepe, quis, architecto molestias iste quidem velit! Illo assumenda quaerat nisi.
+                    { user.description }
                     </Typography>
 
                     <Typography variant="caption">
                         <CalendarMonthOutlined />
-                        Entrou em agosto de 2023
+                        <IntlProvider locale="pt-BR">
+                            Entrou em <FormattedDate value={ user.createdAt } month="long" year="numeric" />
+                        </IntlProvider>
                     </Typography>
                 </Box>
             </Box>
