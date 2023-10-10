@@ -34,7 +34,7 @@ export class UserService {
         if (!found){
             throw new ApplicationException("User not found", 404) 
         }
-        // Garante que o objeto substituido tera o mesmo ID da requisicao
+        // Garante que o objeto substituido tera o mesmo ID da requisicao aa
         user.id = id;
 
         return this.repository.save(user);
