@@ -11,8 +11,12 @@ export class AuthController {
             if (!found){
                 throw new UnauthorizedException();
             }
+
+            const payload = {userId: found.id, usarName: found.userName}
+
+            const token = await this.jwtService.signAsync(payload);
             return {
-                status: "deu certo :)"
+                status:
             };
         }
 
