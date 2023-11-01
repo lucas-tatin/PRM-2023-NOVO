@@ -1,12 +1,18 @@
-import { Box, Button, Card, CardContent, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, Snackbar, TextField, Typography } from "@mui/material";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ICredential } from "../../@types";
 import { LoadingButton } from "@mui/lab";
+import { useAuth } from "../../hook/useAuth";
+
+
+import '../../assets/css/sign.css';
 
 function SignInPage() {
 
     const navigate = useNavigate();
+
+    const { login } = useAuth();
 
     const [credential, setCredential] = useState<ICredential>(
         {
@@ -21,26 +27,28 @@ function SignInPage() {
     //State - Error Message
     const [messageError, setMessageError] = useState('');
 
-    function handleSignIn(event: FormEvent) {
+    async function handleSignIn(event: FormEvent) {
         event.preventDefault();
 
         setLoading(true);
 
         try {
-            //TO-DO: Call endpoint from backend /auth/signin
+            await login(credential);
+            navigate('/');
         } catch (e) {
             const error = e as Error;
             setMessageError(String(error.message));
+            console.log('ERROR:', String(error.message))
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <Box id="sign-in-page">
+        <Box id="sign-in-page" className="sign-page">
             <form onSubmit={handleSignIn}>
                 <Card>
-                    <CardContent>
+                    <CardContent className="sign-content">
                         <Typography variant="h5">
                             Faça o Login
                         </Typography>
@@ -65,9 +73,14 @@ function SignInPage() {
                             variant="contained"
                             size="large"
                             loading={loading}>
-                            Entrar
+                            Acessar
                         </LoadingButton>
                             
+                        <Box className="sign-separator">
+                            <Box className="traco"></Box>
+                            <Typography component="h5">OU</Typography>
+                            <Box className="traco"></Box>
+                        </Box>
 
                         <Typography variant="h5">
                             Crie uma Conta
@@ -85,6 +98,18 @@ function SignInPage() {
                     </CardContent>
                 </Card>
             </form>
+
+            <Snackbar
+                open={Boolean(messageError)}
+                autoHideDuration={6000}
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+
+                <Alert severity="error" 
+                    variant="filled" 
+                    onClose={() => setMessageError('')}>
+                    {messageError}
+                </Alert>
+            </Snackbar>
         </Box>
     )
 }
