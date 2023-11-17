@@ -10,3 +10,9 @@ export interface IUser {
     password?: string;
     description?: string;
 }
+export interface ITopic {
+    id?: number;
+    content: string;
+    owner?: IUser;
+    createdAt?: Date;
+}

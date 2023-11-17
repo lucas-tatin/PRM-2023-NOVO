@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { AppController } from "src/app.controller";
 import { User } from "src/entities/user.entity";
 import { ApplicationException } from "src/exceptions";
 import { Repository } from 'typeorm';
@@ -23,21 +22,24 @@ export class UserService {
     }
     create(user: User): Promise<User> {
         return this.repository.save(user);
-    } 
+    }
 
     async delete(id: number): Promise<void> {
         await this.repository.delete(id);
     }
 
-    async update(id: number, user: User): Promise<User> {  
-        const found = this.repository.findOneBy({id :id})
-        if (!found){
-            throw new ApplicationException("User not found", 404) 
+    async update(id: number, user: User): Promise<User> {
+
+        const found = await this.repository.findOneBy({id: id})
+
+        if (!found) {
+            throw new ApplicationException('User not found', 404)
         }
-        // Garante que o objeto substituido tera o mesmo ID da requisicao aa
+
+        //Garante que o objeto substituido terá o mesmo ID da requisição
         user.id = id;
 
         return this.repository.save(user);
-    }
 
+    }
 }
