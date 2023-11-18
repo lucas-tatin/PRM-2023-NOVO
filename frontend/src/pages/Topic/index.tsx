@@ -23,8 +23,8 @@ function TopicPage() {
 
 
     //TOPICS
-    const [topics, setTopics] = useState([]);
-    const [profileTopics, setProfileTopics] = useState([]);
+    const [topics, setTopics] = useState<ITopic[]>([]);
+    const [profileTopics, setProfileTopics] = useState<ITopic[]>([]);
 
     //TABS
     const [tab, setTab] = useState(2);
@@ -46,7 +46,24 @@ function TopicPage() {
     function handleCreateTopic() {
         setLoading(true);
 
-        //TO-DO: Chama a service para enviar para a API
+        //Chama a service para enviar para a API
+        createTopic(topicForm)
+        .then(result => {
+            setProfileTopics([result.data, ...topics ]);
+            setMessageSuccess('Topico criado com sucesso!');
+            setTimeout(() => {
+                setMessageSuccess('')
+            }, 5000)
+
+        })
+        .catch(error => {
+            console.log('Deu ruim: ', error.message)
+
+        })
+        .finally(()=>{
+            setShowForm(false);
+            setLoading(false);
+        })
     }
 
     useEffect(() => {
@@ -121,6 +138,8 @@ function TopicPage() {
                                     rows={4}
                                     disabled={loading}
                                     inputProps={{maxLength: 250}}
+                                    value={ topicForm.content}
+                                    onChange={event => setTopicForm({...topicForm, content: (event.target as HTMLInputElement).value})}
                                 />
 
                                 <Box display="flex" flexDirection="row" gap={3}>
@@ -153,13 +172,23 @@ function TopicPage() {
 
             <Snackbar
                 open={Boolean(messageError)}
-                autoHideDuration={6000}
                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
 
                 <Alert severity="error" 
                     variant="filled" 
                     onClose={() => setMessageError('')}>
                     {messageError}
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={Boolean(messageSuccess)}
+                autoHideDuration={6000}
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+
+                <Alert severity="success" 
+                    variant="filled" 
+                    onClose={() => setMessageSuccess('')}>
+                    {messageSuccess}
                 </Alert>
             </Snackbar>
         </Box>

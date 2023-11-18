@@ -1,17 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ProfileController } from './controllers/profile.controller';
-import { ProfileService } from './services/profile.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
-import { Topic } from './entities/topic.entity';
-import { UserController } from './controllers/user.controller';
-import { TopicController } from './controllers/topic.controller';
-import { UserService } from './services/user.service';
-import { TopicService } from './services/topic.service';
-import { AuthController } from './controllers/auth.controller';
-import { AuthService } from './services/auth.service';
+import { User } from './users/user.entity';
+import { Topic } from './topics/topic.entity';
+import {JwtModule } from '@nestjs/module'
+import { UserModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,11 +16,14 @@ import { AuthService } from './services/auth.service';
       password: 'root',
       database: 'prm_2023', 
       synchronize: true,
-      entities: [User, Topic]
+      autoLoadEntities: true
     }),
-    TypeOrmModule.forFeature([User, Topic])
+    UserModule,
+    TopicModule,
+    AuthModule,
+    ProfileModule
   ],
-  controllers: [AppController, ProfileController, UserController, TopicController, AuthController],
-  providers: [AppService, ProfileService, UserService, TopicService, AuthService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
