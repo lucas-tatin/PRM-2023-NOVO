@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ICredential, IUser } from "../@types";
+import { IComment, ICredential, IUser, ITopic } from "../@types";
 
 //Busca o token da Local Storage
 const token = localStorage.getItem('token');
@@ -13,6 +13,7 @@ const api = axios.create({
 const _AUTH = '/auth';
 const _PROFILE = '/profile';
 const _TOPICS = '/topics';
+const _COMMENTS = '/comments';
 
 //AUTH
 const signIn = (credential: ICredential) => api.post(`${_AUTH}/signin`, credential);
@@ -29,11 +30,20 @@ const getTopicsByUsername = (username?: string) => {
 
 const createTopic = (topic: ITopic) => (api.post(_TOPICS, topic));
 
+//COMMENTS
+const getCommentsByTopic = (topic: ITopic) => (api.get(`${_COMMENTS}?TOPIC=${topic.id}`));
+const createComment = (comment: IComment) => (api.post(_COMMENTS, comment));
+const removeComment = (comment: IComment) => (api.delete(`${_COMMENTS}/${comment.id}`));
+
 export {
     signIn,
     signUp,
     getProfileByUsername,
     getTopicsByUsername,
-    
+    createTopic,
+
+    getCommentsByTopic,
+    createComment,
+    removeComment    
 }
 

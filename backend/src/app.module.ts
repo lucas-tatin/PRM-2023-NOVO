@@ -2,12 +2,20 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { Topic } from './topics/topic.entity';
-import {JwtModule } from '@nestjs/module'
+import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './users/user.module';
+import { TopicModule } from './topics/topic.module';
 import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profiles/profile.module';
+import { CommentModule } from './comments/comment.module';
 
 @Module({
   imports: [
+    JwtModule.register({
+      global: true,
+      secret: 'materdei',
+      signOptions: {expiresIn: '24h'}
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -21,7 +29,8 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     TopicModule,
     AuthModule,
-    ProfileModule
+    ProfileModule,
+    CommentModule
   ],
   controllers: [],
   providers: [],

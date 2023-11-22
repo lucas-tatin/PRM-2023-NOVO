@@ -16,3 +16,10 @@ export interface ITopic {
     owner?: IUser;
     createdAt?: Date;
 }
+export interface IComment {
+    id?: number;
+    content: string;
+    user?: IUser;
+    topic?:ITopic;
+    createdAt?: Date;
+}
