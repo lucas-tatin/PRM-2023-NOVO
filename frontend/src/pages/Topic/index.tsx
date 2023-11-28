@@ -4,7 +4,7 @@ import TopicList from "../../components/TopicList"
 import { SyntheticEvent, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useAuth } from "../../hook/useAuth"
-import { getProfileByUsername, getTopicsByUsername } from "../../services"
+import { createTopic, getProfileByUsername, getTopicsByUsername } from "../../services"
 import { ITopic, IUser } from "../../@types"
 import AddIcon from '@mui/icons-material/Add';
 import { LoadingButton } from "@mui/lab"
@@ -48,22 +48,20 @@ function TopicPage() {
 
         //Chama a service para enviar para a API
         createTopic(topicForm)
-        .then(result => {
-            setProfileTopics([result.data, ...topics ]);
-            setMessageSuccess('Topico criado com sucesso!');
-            setTimeout(() => {
-                setMessageSuccess('')
-            }, 5000)
-
-        })
-        .catch(error => {
-            console.log('Deu ruim: ', error.message)
-
-        })
-        .finally(()=>{
-            setShowForm(false);
-            setLoading(false);
-        })
+            .then(result => {
+                setProfileTopics([result.data, ...topics]);
+                setMessageSuccess('Tópico criado com sucesso!');
+                setTimeout(() => {
+                    setMessageSuccess('')
+                }, 5000)
+            })
+            .catch(error => {
+                setMessageError(error.message);
+            })
+            .finally(()=> {
+                setShowForm(false);
+                setLoading(false);
+            })
     }
 
     useEffect(() => {
@@ -172,6 +170,7 @@ function TopicPage() {
 
             <Snackbar
                 open={Boolean(messageError)}
+                autoHideDuration={6000}
                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
 
                 <Alert severity="error" 
@@ -180,9 +179,9 @@ function TopicPage() {
                     {messageError}
                 </Alert>
             </Snackbar>
+
             <Snackbar
                 open={Boolean(messageSuccess)}
-                autoHideDuration={6000}
                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
 
                 <Alert severity="success" 
