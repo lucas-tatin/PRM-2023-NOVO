@@ -1,16 +1,27 @@
 import { Typography } from "@mui/material";
+import { ITopic } from "../../@types";
+//import { BorderLeft } from "@mui/icons-material";
 
 type TopicCardBodyProps = {
     content: string
+    topicReposted?: ITopic
 }
 function TopicCardBody({
-    content
+    content,
+    topicReposted
 }: TopicCardBodyProps) {
     return (
         <div id="topic-card-body" style={{marginLeft: '3rem'}}>
-            <Typography variant="body1">
+            {topicReposted ? (
+                 <Typography variant="body1"
+                    sx={{borderLeft: '3px solid #71767b', color: '#71767b', padding: '1rem'}}>
+                    {`Postado por @${topicReposted.owner?.username}: ${content}`}
+                </Typography>
+            ):(
+                <Typography variant="body1">
                 {content}
-            </Typography>
+                </Typography>
+            )}
         </div>
     )
 }
