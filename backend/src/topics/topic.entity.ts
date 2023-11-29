@@ -24,6 +24,9 @@ export class Topic {
     @VirtualColumn({query: (alias) => `select count(id) from topic_user_comment where topic_id = ${alias}.id`})
     totalComments: number;
 
+    @VirtualColumn({query: (alias) => `select count(id) from topic_user_likes where topic_id = ${alias}.id`})
+    totalLikes: number;
+
     @CreateDateColumn({name: 'created_at'})
     createdAt: Date;
 

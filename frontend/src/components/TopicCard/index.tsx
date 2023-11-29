@@ -143,6 +143,7 @@ function TopicCard({
             })
 
         //TO-DO: Likes
+        
 
     }, []);
 
@@ -157,7 +158,7 @@ function TopicCard({
                 topicReposted={topicReposted}
                 content={topic.content} />
 
-            <TopicCardActions 
+            <TopicCardActions
                 commented={Boolean(comment.user)}
                 totalComments={totalComments}
                 clickComment={handleClickComment} 

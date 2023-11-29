@@ -7,9 +7,13 @@ type TopicCardActionsProps = {
     commented: boolean,
     totalComments: number,
     clickComment:() => void,
+    totalLikes: number,
+    liked: boolean,
+    clickLike:() => void
 
     reposters: IUser[],
     clickRespost:() => void,
+    likers: IUser[],
 }
 function TopicCardActions({
     commented,
@@ -17,6 +21,7 @@ function TopicCardActions({
     clickComment,
     reposters,
     clickRespost
+
 
 }: TopicCardActionsProps) {
     return (
@@ -26,6 +31,7 @@ function TopicCardActions({
             onClick={clickComment}>
                 {totalComments}
             </Button>
+          
 
             <Tooltip title={
                 reposters.length > 0 ?(
@@ -55,7 +61,9 @@ function TopicCardActions({
             <Button variant="text" size="small" startIcon={<FavoriteBorder />}>
                 33
             </Button>
+            
         </div>
+        
     )
 }
 
