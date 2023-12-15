@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #f8f8f8;
+    color: #29292e;
+
+}
+
+main {
+    display: flex;
+    padding: 40px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.painel-detalhes {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    width: 450px;
+}
+.onibus {
+    width: 450px;
+    border: 2px solid #1976d2;
+    background-color: #e3ebf3;
+    padding: 8px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+
+    border-radius: 1rem;
+}

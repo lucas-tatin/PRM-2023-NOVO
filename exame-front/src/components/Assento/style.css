@@ -1,0 +1,12 @@
+.assento {
+    margin: 2px 4px;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+}
+.button-assento {
+    width: 100%;
+    height: 100%;
+}
